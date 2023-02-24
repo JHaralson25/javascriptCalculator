@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Calculator</title>
+</head>
+
+<body>
+    <h1>JavaScript Calculator</h1>
+    <input type="text" id="field1" name="field1"><br><br>
+    <input type="text" id="field2" name="field2"><br><br>
+    <input class="buttons" type="radio" name="operation" value="+" id="addInput"><label
+        for="addInput">+</label><br><br>
+    <input class="buttons" type="radio" name="operation" value="-" id="subInput"><label
+        for="subInput">-</label><br><br>
+    <input class="buttons" type="radio" name="operation" value="*" id="multInput"><label
+        for="multInput">*</label><br><br>
+    <input class="buttons" type="radio" name="operation" value="/" id="divInput"><label
+        for="divInput">/</label><br><br>
+    <button id="reset">reset</button>
+    <output id="result">Output will appear here</output>
+    <script>
+
+        function checkOperation() {
+            let radio_pointers = document.getElementsByName("operation");
+            let which_button = null;
+            for (let i = 0; i < radio_pointers.length; i++) {
+                if (radio_pointers[i].checked) {
+                    which_button = radio_pointers[i].value;
+                    break;
+                }
+            }
+            return which_button;
+        }
+
+        const math = {
+            '+': function (x, y) { return x + y },
+            '-': function (x, y) { return x - y },
+            '*': function (x, y) { return x * y },
+            '/': function (x, y) { return x / y }
+        }
+
+        function checkIfAllNumbers(input){
+            for(let i = 0; i<input.length; i++){
+                if(!(/\d+/.test(input[i]))){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function getOutput(){
+            let output = 0;
+            if(!(checkIfAllNumbers(document.getElementById("field1").value) && checkIfAllNumbers(document.getElementById("field2").value))){
+                alert("Please only enter numbers in the fields");
+                return;
+            }
+            if(checkOperation() == null){
+                alert("Please fill in all fields");
+                return;
+            }
+            const firstInput = Number(document.getElementById("field1").value);
+            const secondInput = Number(document.getElementById("field2").value);
+            operation = checkOperation();
+            if(operation == "/" && secondInput == 0){
+                alert("Divide by 0 Error");
+                return;
+            }
+            output = math[operation](firstInput, secondInput);
+            document.getElementById("result").textContent = firstInput + operation + secondInput + "=" + output;
+        }
+
+        document.getElementById("reset").addEventListener("click", function() {
+            document.getElementById("field1").value = '';
+            document.getElementById("field2").value = '';
+            let radio_pointers = document.getElementsByName("operation");
+            for (let i = 0; i < radio_pointers.length; i++) {
+                radio_pointers[i].checked = false;
+            }
+            document.getElementById("result").textContent = "Output will appear here";
+        }, false);
+
+        document.getElementById("field1").addEventListener("keyup", function(){
+            if(checkOperation() != null){
+                getOutput();
+            }
+        }, false);
+
+        document.getElementById("field2").addEventListener("keyup", function(){
+            if(checkOperation() != null){
+                getOutput();
+            }
+        }, false);
+
+        document.getElementById("addInput").addEventListener("click", function(){
+            getOutput();
+        }, false);
+        document.getElementById("subInput").addEventListener("click", function(){
+            getOutput();
+        }, false);
+        document.getElementById("multInput").addEventListener("click", function(){
+            getOutput();
+        }, false);
+        document.getElementById("divInput").addEventListener("click", function(){
+            getOutput();
+        }, false);
+    </script>
+</body>
+
+</html>
