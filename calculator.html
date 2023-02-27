@@ -55,10 +55,6 @@
                 alert("Please only enter numbers in the fields");
                 return;
             }
-            if(checkOperation() == null){
-                alert("Please fill in all fields");
-                return;
-            }
             const firstInput = Number(document.getElementById("field1").value);
             const secondInput = Number(document.getElementById("field2").value);
             operation = checkOperation();
